@@ -1,0 +1,5 @@
+node_modules/
+.env
+asistencia_inbefic.sqlite3
+asistencia_inbefic.sqlite3-shm
+asistencia_inbefic.sqlite3-wal

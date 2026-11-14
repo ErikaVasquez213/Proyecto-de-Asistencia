@@ -1,0 +1,12 @@
+{
+  "name": "asistencia-inbefic",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Aplicación local de asistencia escolar con PostgreSQL",
+  "scripts": {
+    "start": "node servidor.js"
+  },
+  "dependencies": {
+    "pg": "^8.16.3"
+  }
+}

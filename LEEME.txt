@@ -1,0 +1,32 @@
+APLICACIÓN DE ASISTENCIA INBEFIC
+
+Requisitos:
+- Node.js 22.5 o posterior instalado en Windows y disponible con el comando "node".
+- PostgreSQL instalado y ejecutándose en esta computadora.
+- El paquete de Node.js del proyecto (se instala con npm install).
+
+Preparar PostgreSQL la primera vez:
+1. Abre pgAdmin y conecta con tu servidor PostgreSQL local.
+2. Abre crear_base_datos_postgresql.sql en Query Tool y ejecútalo una sola vez.
+   El script crea la base asistencia_inbefic_carlos.
+3. En esta carpeta, ejecuta npm install para instalar el conector de PostgreSQL.
+
+Para iniciar:
+1. Detén la versión anterior del servidor SQLite si sigue abierta.
+2. Ejecuta iniciar_asistencia.bat y escribe la contraseña de PostgreSQL cuando
+   se solicite (no se muestra ni se guarda en un archivo).
+3. Deja abierta la ventana y usa http://127.0.0.1:8000/.
+4. No abras el archivo HTML directamente.
+
+El servidor crea las tablas de alumnos, semanas y asistencia automáticamente.
+La base PostgreSQL está en localhost:5432/asistencia_inbefic_carlos.
+Si existe información en asistencia_inbefic.sqlite3 y PostgreSQL está vacío,
+se importará automáticamente al primer inicio; conserva ese archivo hasta
+confirmar que los alumnos y asistencias aparecen correctamente en pgAdmin.
+Las justificaciones se guardan por alumno y fecha en la tabla daily_attendance.
+
+Para consultar los registros desde pgAdmin, abre Query Tool en
+asistencia_inbefic_carlos y ejecuta:
+SELECT * FROM students ORDER BY name;
+SELECT attendance_date, student_code, status, justification
+FROM daily_attendance ORDER BY attendance_date, student_code;

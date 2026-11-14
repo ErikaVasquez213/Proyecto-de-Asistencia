@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Registro de estudiante</title>
+<style>
+  :root{
+    --azul-1:#1e6fe0;
+    --azul-2:#1450b8;
+    --azul-3:#0c3a8f;
+    --blanco:#ffffff;
+    --texto-suave:#8a94a6;
+    --gris-input:#f2f4f7;
+  }
+
+  *{box-sizing:border-box; margin:0; padding:0;}
+
+  html,body{
+    min-height:100vh;
+  }
+
+  body{
+    font-family:'Segoe UI', Arial, sans-serif;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:40px 20px;
+    position:relative;
+    overflow-x:hidden;
+
+    
+    background:
+      radial-gradient(circle at 15% 20%, rgba(0, 31, 170, 0.904) 0, transparent 40%),
+      radial-gradient(circle at 85% 80%, rgba(25, 0, 165, 0.973) 0, transparent 40%),
+      linear-gradient(150deg, var(--azul-1) 0%, var(--azul-2) 55%, var(--azul-3) 100%);
+  }
+
+  /* ---------- Ondas decorativas en el fondo ---------- */
+  .onda{
+    position:fixed;
+    left:0;
+    width:100%;
+    z-index:0;
+    opacity:90%;
+    pointer-events:none;
+  }
+  .onda.superior{ top:-40px; }
+  .onda.inferior{ bottom:-60px; transform:scaleY(-1) rotate(180deg); }
+
+  .marca-flotante{
+    position:fixed;
+    top:28px;
+    left:36px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    font-size:13px;
+    letter-spacing:1.5px;
+    text-transform:uppercase;
+    font-weight:600;
+    color:var(--blanco);
+    opacity:0.9;
+    z-index:2;
+  }
+  .marca-flotante .punto{
+    width:20px;
+    height:20px;
+    border:2px solid var(--blanco);
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+  .marca-flotante .punto::after{
+    content:"";
+    width:6px;
+    height:6px;
+    background:var(--blanco);
+    border-radius:50%;
+  }
+
+  /* ---------- Tarjeta blanca de registro ---------- */
+  .tarjeta{
+    position:relative;
+    z-index:1;
+    width:100%;
+    max-width:640px;
+    background:var(--blanco);
+    border-radius:16px;
+    padding:44px 50px 40px;
+    box-shadow:0 30px 60px rgba(10,30,80,0.35);
+  }
+
+  .tarjeta h2{
+    color:var(--azul-2);
+    font-size:26px;
+    font-weight:800;
+    margin-bottom:8px;
+  }
+
+  .tarjeta > p.subtitulo{
+    color:var(--texto-suave);
+    font-size:13px;
+    line-height:1.6;
+    margin-bottom:28px;
+  }
+
+  .rejilla{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:16px;
+  }
+
+  .campo{
+    margin-bottom:16px;
+  }
+
+  .campo.completo{
+    grid-column:1 / -1;
+  }
+
+  .campo label{
+    display:block;
+    font-size:12px;
+    font-weight:600;
+    color:#5b6472;
+    margin-bottom:6px;
+    letter-spacing:0.3px;
+  }
+
+  .campo input,
+  .campo select{
+    width:100%;
+    padding:13px 16px;
+    border:none;
+    border-left:4px solid var(--azul-1);
+    background:var(--gris-input);
+    border-radius:6px;
+    font-size:14px;
+    color:#333;
+    outline:none;
+    transition:background 0.2s ease;
+    font-family:inherit;
+    appearance:none;
+  }
+
+  .campo select{
+    background-image:
+      linear-gradient(45deg, transparent 50%, #8a94a6 50%),
+      linear-gradient(135deg, #8a94a6 50%, transparent 50%);
+    background-position:
+      calc(100% - 20px) center,
+      calc(100% - 15px) center;
+    background-size:5px 5px, 5px 5px;
+    background-repeat:no-repeat;
+    cursor:pointer;
+  }
+
+  .campo input::placeholder{
+    color:#a7afbd;
+  }
+
+  .campo input:focus,
+  .campo select:focus{
+    background-color:#e9edf5;
+  }
+
+  .btn-registrar{
+    width:100%;
+    margin-top:8px;
+    padding:15px;
+    border:none;
+    border-radius:30px;
+    background:linear-gradient(90deg, var(--azul-1), var(--azul-2));
+    color:var(--blanco);
+    font-size:14px;
+    font-weight:700;
+    letter-spacing:1px;
+    text-transform:uppercase;
+    cursor:pointer;
+    box-shadow:0 10px 20px rgba(20,80,184,0.35);
+    
+    transition:transform 0.15s ease, box-shadow 0.15s ease;
+  }
+
+  .btn-registrar:hover{
+    transform:translateY(-2px);
+    background:red;
+    box-shadow:0 14px 24px rgba(20,80,184,0.45);
+  }
+
+  .btn-registrar:active{
+    transform:translateY(0);
+  }
+
+  .pie{
+    text-align:center;
+    font-size:13px;
+    color:var(--texto-suave);
+    margin-top:20px;
+  }
+
+  .pie a{
+    color:var(--azul-1);
+    text-decoration:none;
+    font-weight:600;
+  }
+
+  .pie a:hover{
+    text-decoration:underline;
+  }
+
+  @media (max-width:600px){
+    .rejilla{
+      grid-template-columns:1fr;
+    }
+    .tarjeta{
+      padding:34px 26px 30px;
+    }
+    .marca-flotante{
+      left:20px;
+      top:18px;
+    }
+  }
+</style>
+</head>
+<body>
+
+  <div class="marca-flotante">
+    <span class="punto"></span>
+    INSTITUTO NACIONAL BERTHA FIDELIA CAÑAS
+  </div>
+
+  
+  <svg class="onda superior" viewBox="0 0 1440 320" xmlns="http://www.w3.org/2000/svg">
+    <path fill="#ffff3f" fill-opacity="0.08" d="M0,96L80,112C160,128,320,160,480,154.7C640,149,800,107,960,101.3C1120,96,1280,128,1360,144L1440,160L1440,0L1360,0C1280,0,1120,0,960,0C800,0,640,0,480,0C320,0,160,0,80,0L0,0Z"></path>
+  </svg>
+  <svg class="onda inferior" viewBox="0 0 1440 320" xmlns="http://www.w3.org/2000/svg">
+    <path fill="#ffffff" fill-opacity="0.08" d="M0,64L80,74.7C160,85,320,107,480,128C640,149,800,171,960,165.3C1120,160,1280,128,1360,112L1440,96L1440,0L1360,0C1280,0,1120,0,960,0C800,0,640,0,480,0C320,0,160,0,80,0L0,0Z"></path>
+  </svg>
+
+
+  <div class="tarjeta">
+    <h2>Crear cuenta</h2>
+    <p class="subtitulo">Completa tus datos para registrarte y acceder a la plataforma de nuestra institución.</p>
+
+    <form>
+      <div class="rejilla">
+
+        <div class="campo completo">
+          <label>Nombre y apellidos completos</label>
+          <input type="text" placeholder="Ej. María José Ramírez López" required>
+        </div>
+
+        <div class="campo completo">
+          <label>Documento único de identidad</label>
+          <input type="text" placeholder="Ej. 01234567-8" required>
+        </div>
+
+        <div class="campo completo">
+          <label>Correo institucional</label>
+          <input type="email" placeholder="nombre.apellido@institucion.edu" required>
+        </div>
+
+        <div class="campo">
+          <label>Teléfono</label>
+          <input type="tel" placeholder="0000-0000" required>
+        </div>
+
+        <div class="campo">
+          <label>Especialidad</label>
+          <select required>
+            <option value="" disabled selected>Selecciona</option>
+            <option value="ingles">Inglés</option>
+            <option value="informatica">Informática</option>
+            <option value="ingles">Software</option>
+            <option value="informatica">Lenguaje</option>
+          </select>
+        </div>
+
+        <div class="campo">
+          <label>Contraseña</label>
+          <input type="password" placeholder="Crea una contraseña" required>
+        </div>
+
+        <div class="campo">
+          <label>Confirmar contraseña</label>
+          <input type="password" placeholder="Repite la contraseña" required>
+        </div>
+
+        <div class="campo">
+          <label>Sección</label>
+          <select required>
+            <option value="" disabled selected>Selecciona</option>
+            <option value="A">Sección 1A</option>
+            <option value="B">Sección 1B</option>
+            <option value="C">Sección 1C</option>
+            <option value="A">Sección 2A</option>
+            <option value="B">Sección 2B</option>
+            <option value="C">Sección 2C</option>
+            <option value="A">Sección 3A</option>
+            <option value="B">Sección 3B</option>
+            
+          </select>
+        </div>
+
+        <div class="campo">
+          <label>Turno</label>
+          <select required>
+            <option value="" disabled selected>Selecciona</option>
+            <option value="manana">Mañana</option>
+            <option value="tarde">Tarde</option>
+          </select>
+        </div>
+
+      </div>
+
+      <button type="submit" class="btn-registrar">Registrarse</button>
+    </form>
+
+    <div class="pie">
+      ¿Ya tienes cuenta? <a href="#">Inicia sesión</a>
+    </div>
+  </div>
+
+</body>
+</html>
